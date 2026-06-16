@@ -1,17 +1,26 @@
-import { Text, View, StyleSheet } from "react-native";
+import { getServices } from "@/services/serviceService";
+import { useQuery } from "@tanstack/react-query";
+import { Text, View } from "react-native";
 
-export default function Index() {
+export default function HomeScreen() {
+  const { data, isLoading } = useQuery({
+    queryKey: ["services"],
+    queryFn: getServices,
+  });
+
+  console.log(data);
+
+  if (isLoading) {
+    return <Text>Loading...</Text>;
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Edit src/app/index.tsx to edit this screen.</Text>
+    <View className="flex-1 p-5 items-center justify-center bg-red-600">
+      {data?.map((service) => (
+        <Text key={service.id} className="text-lg mb-3 text-white">
+          {service.name}
+        </Text>
+      ))}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
