@@ -8,16 +8,14 @@ export default function HomeScreen() {
     queryFn: getServices,
   });
 
-  console.log(data);
-
   if (isLoading) {
     return <Text>Loading...</Text>;
   }
 
   return (
-    <View className="flex-1 p-5 items-center justify-center bg-red-600">
+    <View className="flex-1 p-5 items-center  justify-center bg-background">
       {data?.map((service) => (
-        <Text key={service.id} className="text-lg mb-3 text-white">
+        <Text key={service.id} className="text-lg mb-3 text-text">
           {service.name}
         </Text>
       ))}
