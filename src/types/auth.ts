@@ -7,3 +7,10 @@ export type AUthState = {
   setUser: (user: User | null) => void;
   setIsLoading: (isLoading: boolean) => void;
 };
+
+export type Profile = {
+  id: string;
+  full_name: string | null;
+  phone: string | null;
+  role: "customer" | "admin";
+};

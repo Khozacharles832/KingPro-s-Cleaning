@@ -1,24 +1,23 @@
-import { getServices } from "@/services/serviceService";
-import { useQuery } from "@tanstack/react-query";
-import { Text, View } from "react-native";
+import { useAuthStore } from "@/store/authStore";
+import { Redirect } from "expo-router";
+import { ActivityIndicator, View } from "react-native";
 
-export default function HomeScreen() {
-  const { data, isLoading } = useQuery({
-    queryKey: ["services"],
-    queryFn: getServices,
-  });
+export default function Index() {
+  const { user, profile, loading } = useAuthStore();
+  console.log("user", user);
 
-  if (isLoading) {
-    return <Text>Loading...</Text>;
+  if (loading)
+    return (
+      <View className="flex-1 items-center justify-center bg-background">
+        <ActivityIndicator size="large" />
+      </View>
+    );
+
+  if (!user) return <Redirect href="/(auth)/login" />;
+
+  if (profile?.role === "admin") {
+    return <Redirect href="/(admin)/dashboard" />;
   }
 
-  return (
-    <View className="flex-1 p-5 items-center  justify-center bg-background">
-      {data?.map((service) => (
-        <Text key={service.id} className="text-lg mb-3 text-text">
-          {service.name}
-        </Text>
-      ))}
-    </View>
-  );
+  return <Redirect href="/(tabs)/home" />;
 }

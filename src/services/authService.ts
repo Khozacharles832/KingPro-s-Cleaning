@@ -11,10 +11,11 @@ export async function login(email: string, password: string) {
   return data;
 }
 
-export async function register(email: string, password: string) {
+export async function register(email: string, phone: string, password: string) {
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
+    phone,
   });
 
   if (error) throw error;
